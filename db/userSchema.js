@@ -25,6 +25,44 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.pre('save', function(next) {
+  const user = this;
+  // Ellenőrizzük, hogy a jelszó módosult-e
+  if(user.isModified('password')) {
+      // Generálunk egy sót a jelszó hash-eléséhez
+      bcrypt.genSalt(10, function(err, salt) {
+          if(err) {
+              console.log('hiba a salt generalasa soran');
+              // Ha hiba történik a só generálásakor, akkor visszatérünk a hibával
+              return next(error);
+          }
+          // Hash-eljük a jelszót a sóval
+          bcrypt.hash(user.password, salt, function(error, hash) {
+              if(error) {
+                  console.log('hiba a hasheles soran');
+                  // Ha hiba történik a hash-elés során, akkor visszatérünk a hibával
+                  return next(error);
+              }
+              // Beállítjuk a jelszó értékét a hash-re
+              user.password = hash;
+              // Folytatjuk a mentést
+              return next();
+          })
+      })
+  } else {
+      // Ha a jelszó nem módosult, akkor folytatjuk a mentést
+      return next();
+  }
+});
+
+userSchema.methods.comparePasswords = function(password, nx) {
+  bcrypt.compare(password, this.password, function(err, isMatch) {
+      // Az összehasonlítás eredményét visszaadjuk a callback függvénynek
+      nx(err, isMatch);
+  });
+};
+
+
 // User modell
 const User = model('user', userSchema);
 
