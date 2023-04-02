@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt'
 
 // #2 User sémadefiníció, minden dokumentumnak, amit a MongoDB-ben tárolni akarunk, kell egy séma definíció
 const userSchema = new Schema({
@@ -55,11 +56,9 @@ userSchema.pre('save', function(next) {
   }
 });
 
-userSchema.methods.comparePasswords = function(password, nx) {
-  bcrypt.compare(password, this.password, function(err, isMatch) {
-      // Az összehasonlítás eredményét visszaadjuk a callback függvénynek
-      nx(err, isMatch);
-  });
+userSchema.methods.comparePasswords = async function(password) {
+  const isMatch = await bcrypt.compare(password, this.password);
+  return isMatch;
 };
 
 

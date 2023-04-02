@@ -15,6 +15,8 @@ import logoutRouter from "./routes/logout.js"
 import LocalStrategy from 'passport-local'
 import UserService from './service/userService.js';
 
+
+
 const app = express()
 
 mongoose.connect('mongodb://localhost:27017/mydatabase', {
