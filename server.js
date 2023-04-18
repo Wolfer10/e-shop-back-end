@@ -14,6 +14,7 @@ import logoutRouter from "./routes/logout.js"
 
 import LocalStrategy from 'passport-local'
 import UserService from './service/userService.js';
+import cors from 'cors'
 
 
 
@@ -33,6 +34,22 @@ db.once('open', function () {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
+app.use(cors({
+  origin: 'http://localhost:4200', // replace with your Angular app URL
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // enable CORS with credentials (cookies)
+}));
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
+
 app.use(cookieParser());
 
 
