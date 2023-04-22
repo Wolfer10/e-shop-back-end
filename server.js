@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
   origin: 'http://localhost:4200', // replace with your Angular app URL
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'responseType'],
   credentials: true // enable CORS with credentials (cookies)
 }));
 
