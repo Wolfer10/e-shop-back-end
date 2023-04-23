@@ -12,14 +12,18 @@ import expressSession from 'express-session'
 import loginRouter from "./routes/login.js"
 import logoutRouter from "./routes/logout.js"
 import registerRouter from "./routes/register.js"
-
+import path from 'path'
 import LocalStrategy from 'passport-local'
 import UserService from './service/userService.js';
 import cors from 'cors'
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 
 const app = express()
+
 
 mongoose.connect('mongodb://localhost:27017/mydatabase', {
   useNewUrlParser: true,
@@ -86,10 +90,12 @@ app.use(expressSession({ secret: 'prf2021lassananodejsvegereerunk2', resave: tru
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {
-    console.log('Here');
-    res.json({message: "Hello"})
-})
+
+app.use(express.static(path.join(__dirname, 'public')))
+.set('views', path.join(__dirname, 'views'))
+.set('view engine', 'ejs')
+.set('/', (req, res) => res.render('pages/index'))
+
 
 app.use("/users", userRouter)
 app.use("/products", productRouter)
