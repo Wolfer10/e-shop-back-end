@@ -8,17 +8,6 @@ export default class CrudService {
           throw new Error("Abstract classes can't be instantiated.");
         }
     }
-
-    async findUserByName(name) {
-        const model = await this.Model.find({ username: name });
-        if (!model) {
-            throw new BaseError(404, `Instance not found by name`);
-        }
-        if (model.length > 1) {
-            throw new BaseError(400, `too many instances`);
-        }
-        return model[0];
-    }
     
     async create(model) {
         const createdModel = await this.Model.create(model);

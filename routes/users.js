@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import UserService from '../service/userService.js';
-import ProductService from '../service/productService.js';
 
 const router = Router()
 
@@ -9,16 +8,17 @@ router.get("/", async (req, res) => {
     res.send(users);
 })
 
-router.get("/products", async (req, res) => {
-    const products = await ProductService.readAll();
-    res.send(products);
-})
-
 
 router.get("/:id", async (req, res) => {
     const user = await UserService.readById(req.params.id);
     res.send(user);
      
+})
+
+router.post("/name", async (req, res) => {
+    console.log(req.body);
+    const user = await UserService.findUserByName(req.body.name);
+    res.send(user);
 })
 
 router.post("/", async (req, res) => {

@@ -11,6 +11,7 @@ import BaseError from './error/baseError.js';
 import expressSession from 'express-session'
 import loginRouter from "./routes/login.js"
 import logoutRouter from "./routes/logout.js"
+import registerRouter from "./routes/register.js"
 
 import LocalStrategy from 'passport-local'
 import UserService from './service/userService.js';
@@ -94,6 +95,7 @@ app.use("/users", userRouter)
 app.use("/products", productRouter)
 app.use("/login", loginRouter)
 app.use("/logout", logoutRouter)
+app.use("/register", registerRouter)
 
 
 
