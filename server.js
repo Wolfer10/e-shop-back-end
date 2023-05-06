@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 const app = express()
 
 
-mongoose.connect('mongodb://localhost:27017/mydatabase', {
+mongoose.connect('mongodb://localhost:27017/wfdb', {
   useNewUrlParser: true,
   useUnifiedTopology: true, 
 });
@@ -92,16 +92,18 @@ app.use(passport.session());
 
 
 app.use(express.static(path.join(__dirname, 'public')))
-.set('views', path.join(__dirname, 'views'))
-.set('view engine', 'ejs')
-.set('/', (req, res) => res.render('pages/index'))
 
+app.get('*', (req, res) => {
+  console.log("HELLOO");
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 app.use("/users", userRouter)
 app.use("/products", productRouter)
 app.use("/login", loginRouter)
 app.use("/logout", logoutRouter)
 app.use("/register", registerRouter)
+
 
 
 

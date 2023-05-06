@@ -1,5 +1,6 @@
 import CrudService from './crudService.js';
 import User from '../db/userSchema.js';
+import BaseError from '../error/baseError.js';
 
 class UserService extends CrudService {
 
