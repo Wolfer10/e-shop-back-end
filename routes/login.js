@@ -4,7 +4,6 @@ import passport from 'passport'
 const router = Router()
 
 router.route('/').post((req, res, next) => {
-    console.log(req.body);
     if (req.body.username, req.body.password) {
       // Felhasználónév és jelszó ellenőrzése
       passport.authenticate('local', function (error, user) {

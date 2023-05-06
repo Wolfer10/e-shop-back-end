@@ -8,7 +8,6 @@ router.get("/", async (req, res) => {
     res.send(products);
 })
 
-
 router.get("/:id", async (req, res) => {
     const product = await ProductService.readById(req.params.id);
     res.send(product);
@@ -22,7 +21,6 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     const product = await ProductService.update(req.params.id, req.body);
-    console.log(product);
     res.send(product);
 })
 

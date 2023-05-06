@@ -13,12 +13,16 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
+  priceWithCurrency: {
+    type: String,
+    required: false,
+  },
 
 });
 
-productSchema.post('save', function(doc, next) {
-  console.log('A new product was saved to the database:', doc);
-  next();
+productSchema.pre('save', function(next) {
+    this.priceWithCurrency = `${this.price} Ft`
+    next();
 });
 
 const Product = model('product', productSchema);
